@@ -1,0 +1,78 @@
+1. Write a program to find the difference between the largest and smallest values in an array of
+integers. 
+
+#!/bin/bash
+
+ arr=( 10 1 2 3 4 5 )
+
+ min=0 max=0
+
+for i in ${arr[@]}; do
+  (( $i > max || max == 0)) && max=$i
+    (( $i < min || min == 0)) && min=$i
+ done
+ 
+ echo "min=$min
+ max=$max"
+difference=$(expr $max - $min )
+ echo difference is: "$difference"
+
+
+
+2. Write a C program to create a parent process which terminates after the child finishes
+printing the contents of array.  
+
+1 #include <stdio.h>
+  2 #include <sys/types.h>
+  3 #include <unistd.h>
+  4 
+  5 int main()
+  6 {
+  7     // fork() Create a child process
+  8 
+  9     int pid = fork();
+ 10     if (pid > 0)
+ 11  {
+ 12         //getpid() returns process id
+ 13         // while getppid() will return parent process id
+ 14         printf("Parent process\n");
+ 15         printf("ID : %d\n\n", getpid());
+ 16 printf("i am in parent now");
+ 17 int array[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
+ 18 
+ 19 
+ 20    for(int i = 0; i < 10; i++)
+ 21       printf("%d ", array[i]);
+ 22     }
+ 23     else if (pid == 0) {
+ 24         printf("Child process\n");
+ 25         // getpid() will return process id of child process
+ 26         printf("ID: %d\n", getpid());
+ 27         // getppid() will return parent process id of child process
+ 28         printf("Parent -ID: %d\n\n", getppid());
+ 29 printf("i am in child now");
+ 30   int array[15] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 11, 12, 13, 14, 15};
+ 31 
+ 32 
+ 33      for(int i = 0; i < 15; i++)
+ 34         printf("%d ", array[i]);
+ 35 
+ 36 
+ 37 
+ 38         sleep(10);
+ 39 
+ 40         // At this time parent process has finished.
+ 41         // So if u will check parent process id
+ 42         // it will show different process id
+ 43         printf("\nChild process \n");
+ 44         printf("ID: %d\n", getpid());
+ 45         printf("Parent -ID: %d\n", getppid());
+ 46     }
+ 47     else
+ 48  {
+ 49         printf("Failed to create child process");
+ 50   }
+ 51 
+ 52     return 0;
+ 53 }
+ 54 
